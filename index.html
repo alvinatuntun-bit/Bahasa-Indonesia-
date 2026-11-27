@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evaluasi Bahasa Indonesia — Membaca, Memahami, Tanda Baca</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-badge">BI</span>
+        <div>
+          <h1>Evaluasi Bahasa Indonesia</h1>
+          <p class="subtitle">Tema: Membaca • Memahami • Tanda Baca</p>
+        </div>
+      </div>
+      <div class="topbar-actions" id="quizStatusBar" hidden>
+        <span class="pill" id="timerDisplay">00:00</span>
+        <span class="pill pill-accent" id="progressDisplay">0 / 30 Terjawab</span>
+      </div>
+    </header>
+
+    <!-- Layar Beranda / Pilih Mode -->
+    <main class="container">
+      <section id="homeScreen" class="card hero-card">
+        <div class="hero-header">
+          <span class="tag">Paket Soal Evaluasi Lengkap</span>
+          <h2>Uji Kemampuan Membaca, Memahami Teks, dan Penggunaan Tanda Baca</h2>
+          <p>
+            Pilih paket soal Pilihan Ganda di bawah ini untuk memulai evaluasi interaktif dengan penilaian otomatis dan pembahasan lengkap, atau buka tab Latihan Uraian untuk berlatih soal esai.
+          </p>
+        </div>
+
+        <div class="mode-tabs" role="tablist">
+          <button type="button" class="tab-btn active" data-tab="pgTab">Pilihan Ganda (30 Soal)</button>
+          <button type="button" class="tab-btn" data-tab="uraianTab">Latihan Uraian (9 Soal)</button>
+        </div>
+
+        <div id="pgTab" class="tab-panel active">
+          <div class="student-form">
+            <div class="field">
+              <label for="studentName">Nama Peserta (Opsional)</label>
+              <input type="text" id="studentName" placeholder="Contoh: Siti Rahma" maxlength="60" />
+            </div>
+            <div class="field">
+              <label for="studentClass">Kelas (Opsional)</label>
+              <input type="text" id="studentClass" placeholder="Contoh: VI A / VII B" maxlength="30" />
+            </div>
+          </div>
+
+          <div class="theme-grid">
+            <button type="button" class="theme-card theme-all" data-theme="semua">
+              <span class="theme-count">30 Soal</span>
+              <h3>Semua Tema Lengkap</h3>
+              <p>Gabungan Tema Membaca, Memahami, dan Tanda Baca secara berurutan.</p>
+              <span class="start-cta">Mulai Evaluasi &rarr;</span>
+            </button>
+
+            <button type="button" class="theme-card" data-theme="Membaca">
+              <span class="theme-count">10 Soal</span>
+              <h3>Tema 1: Membaca</h3>
+              <p>Ide pokok, kalimat utama, teks deskripsi, <em>skimming</em>, <em>scanning</em>, dan membaca nyaring.</p>
+              <span class="start-cta">Kerjakan Tema 1 &rarr;</span>
+            </button>
+
+            <button type="button" class="theme-card" data-theme="Memahami">
+              <span class="theme-count">10 Soal</span>
+              <h3>Tema 2: Memahami</h3>
+              <p>Tokoh &amp; watak, amanat, sebab-akibat, ADIKSIMBA, simpulan, fakta &amp; opini, serta ungkapan.</p>
+              <span class="start-cta">Kerjakan Tema 2 &rarr;</span>
+            </button>
+
+            <button type="button" class="theme-card" data-theme="Tanda Baca">
+              <span class="theme-count">10 Soal</span>
+              <h3>Tema 3: Tanda Baca</h3>
+              <p>Tanda titik, koma, tanya, seru, petik, titik dua, tanda hubung, serta EYD V.</p>
+              <span class="start-cta">Kerjakan Tema 3 &rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="uraianTab" class="tab-panel" hidden>
+          <p class="uraian-intro">
+            Gunakan daftar soal uraian berikut untuk latihan tertulis. Klik tombol <strong>Lihat Pedoman Jawaban</strong> pada masing-masing nomor untuk memeriksa jawabanmu.
+          </p>
+          <div id="uraianList" class="uraian-list"></div>
+        </div>
+      </section>
+
+      <!-- Layar Kuis Aktif -->
+      <section id="quizScreen" class="quiz-layout" hidden>
+        <div class="card question-card">
+          <div class="question-meta">
+            <span class="badge" id="questionThemeBadge">Membaca</span>
+            <span class="question-number" id="questionNumberLabel">Soal 1 dari 30</span>
+          </div>
+
+          <div id="passageBox" class="passage-box" hidden>
+            <div class="passage-title" id="passageTitle"></div>
+            <div class="passage-body" id="passageBody"></div>
+          </div>
+
+          <h2 class="question-text" id="questionText"></h2>
+
+          <div class="options-list" id="optionsList"></div>
+
+          <div class="question-footer">
+            <button type="button" class="btn btn-secondary" id="prevBtn">&larr; Sebelumnya</button>
+            <div class="footer-right">
+              <button type="button" class="btn btn-secondary" id="nextBtn">Berikutnya &rarr;</button>
+              <button type="button" class="btn btn-primary" id="finishBtn">Selesai &amp; Nilai</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card navigator-card">
+          <h3>Navigasi Soal</h3>
+          <div class="nav-legend">
+            <span><i class="dot dot-current"></i> Aktif</span>
+            <span><i class="dot dot-answered"></i> Terjawab</span>
+            <span><i class="dot dot-empty"></i> Belum</span>
+          </div>
+          <div class="nav-grid" id="navGrid"></div>
+          <button type="button" class="btn btn-outline btn-full" id="exitQuizBtn">Kembali ke Beranda</button>
+        </aside>
+      </section>
+
+      <!-- Layar Hasil -->
+      <section id="resultScreen" class="card result-card" hidden>
+        <div class="result-header">
+          <div>
+            <span class="tag">Hasil Evaluasi</span>
+            <h2 id="resultIdentity">Peserta Evaluasi</h2>
+            <p id="resultMeta" class="subtitle"></p>
+          </div>
+          <div class="score-circle">
+            <span class="score-value" id="finalScore">0</span>
+            <span class="score-label">Nilai Akhir</span>
+          </div>
+        </div>
+
+        <div class="result-summary-grid" id="themeBreakdown"></div>
+
+        <div class="result-actions">
+          <button type="button" class="btn btn-primary" id="retryBtn">Ulangi Paket Ini</button>
+          <button type="button" class="btn btn-secondary" id="backHomeBtn">Pilih Tema Lain</button>
+        </div>
+
+        <div class="review-section">
+          <h3>Pembahasan Setiap Soal</h3>
+          <div id="reviewList" class="review-list"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
